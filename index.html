@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokeMMO - Guía de Gimnasio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-yellow: #facc15;
+            --accent-red: #f87171;
+            --accent-purple: #c084fc;
+            
+            /* Pokemon Colors */
+            --aero: #f59e0b;
+            --blast: #3b82f6;
+            --typh: #ef4444;
+            --exca: #a855f7;
+            --toge: #ec4899;
+            --vanil: #06b6d4;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.65;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid var(--card-border);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .legend {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .legend-title {
+            width: 100%;
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .poke-gif {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        .badge-aero { background-color: var(--aero); }
+        .badge-blast { background-color: var(--blast); }
+        .badge-typh { background-color: var(--typh); }
+        .badge-exca { background-color: var(--exca); }
+        .badge-toge { background-color: var(--toge); }
+        .badge-vanil { background-color: var(--vanil); }
+
+        .region-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .region-header {
+            background: linear-gradient(90deg, var(--card-bg) 0%, var(--card-border) 100%);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .region-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: 1.5px;
+            font-style: italic;
+        }
+
+        .region-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 25px;
+        }
+
+        @media (min-width: 900px) {
+            .region-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .map-container {
+            width: 100%;
+            max-height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--card-border);
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .map-container img {
+            width: 100%;
+            height: 100%;
+            max-height: 500px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .steps-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .step-item {
+            background-color: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .step-item:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .step-header {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .step-number {
+            background-color: var(--accent-blue);
+            color: var(--on-accent);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .step-location {
+            color: var(--text-primary);
+        }
+
+        .step-time {
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+            margin-left: auto;
+        }
+
+        .step-details {
+            padding-left: 34px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .step-details ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .step-details li {
+            margin-bottom: 4px;
+        }
+
+        .global-note {
+            background-color: #451a03;
+            border: 1px solid #b45309;
+            color: #fde68a;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .global-note span {
+            color: #4ade80;
+            background-color: #064e3b;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 40px;
+        }
+
+        /* ===== Mejoras: tipografía, navegación y legibilidad ===== */
+        html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+        header h1, .region-title, .legend-title, .step-location {
+            font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+        }
+        header h1 { line-height: 1.15; }
+        .region-title { display: flex; align-items: center; gap: 12px; }
+        .region-count {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 0.8rem;
+            font-style: normal;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: var(--text-secondary);
+            background: var(--bg-color);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 4px 12px;
+            white-space: nowrap;
+        }
+        .step-location { font-size: 1.15rem; letter-spacing: 0.4px; }
+        .step-details { font-size: 1rem; line-height: 1.7; color: var(--text-detail); }
+        .step-details li { margin-bottom: 8px; }
+        .step-details li::marker { color: var(--accent-yellow); }
+        .step-time {
+            background: rgba(250, 204, 21, 0.12);
+            border: 1px solid rgba(250, 204, 21, 0.35);
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-weight: 600;
+        }
+
+        .region-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            padding: 12px;
+            margin: 0 0 30px;
+            background: color-mix(in srgb, var(--bg-color) 88%, transparent);
+            -webkit-backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+        }
+        .region-nav button {
+            font: inherit;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 8px 18px;
+            cursor: pointer;
+            transition: color .2s, border-color .2s, background .2s;
+        }
+        .region-nav button:hover { color: var(--text-primary); border-color: var(--accent-blue); }
+        .region-nav button.active {
+            color: var(--on-accent);
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+        .region-nav button:focus-visible { outline: 2px solid var(--accent-yellow); outline-offset: 2px; }
+        .is-hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            header h1 { font-size: 1.8rem; }
+            .region-header { padding: 16px 18px; }
+            .region-title { font-size: 1.4rem; }
+            .region-content { padding: 16px; }
+            .step-time { margin-left: 34px; }
+            .step-details { padding-left: 0; }
+            .region-nav button { padding: 7px 14px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .step-item { transition: none; }
+        }
+
+        /* ===== Mapas: sin franjas negras, ajustados a la imagen ===== */
+        .map-container {
+            display: block;
+            max-height: none;
+            align-self: start;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            box-shadow: 0 8px 22px -8px rgba(0, 0, 0, 0.45);
+            position: relative;
+            cursor: zoom-in;
+        }
+        .map-container img {
+            width: 100%;
+            height: auto;
+            max-height: none;
+            display: block;
+            transition: transform .3s ease;
+        }
+        .map-container:hover img { transform: scale(1.02); }
+        .map-container:focus-visible { outline: 2px solid var(--accent-yellow); outline-offset: 3px; }
+        .map-container::after {
+            content: "⤢";
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            background: color-mix(in srgb, var(--bg-color) 80%, transparent);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+        @media (min-width: 900px) {
+            .map-container { position: sticky; top: 90px; }
+        }
+        .map-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.88);
+            cursor: zoom-out;
+        }
+        .map-lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        }
+        .map-lightbox button {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 40px;
+            height: 40px;
+            font-size: 1.4rem;
+            line-height: 1;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        @media (prefers-reduced-motion: reduce) { .map-container img { transition: none; } .map-container:hover img { transform: none; } }
+
+        /* ===== Barra "región actual / siguiente" ===== */
+        body { padding-bottom: 104px; }
+        .region-pager {
+            position: fixed;
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%);
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: max-content;
+            max-width: calc(100% - 24px);
+            padding: 8px 8px 8px 8px;
+            margin-bottom: env(safe-area-inset-bottom, 0px);
+            background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            box-shadow: 0 10px 30px -6px rgba(0, 0, 0, 0.55);
+        }
+        .region-pager button {
+            font: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 999px;
+            border: 1px solid var(--card-border);
+            transition: transform .15s, opacity .2s, border-color .2s;
+        }
+        .region-pager button:hover:not(:disabled) { transform: translateY(-1px); border-color: var(--accent-blue); }
+        .region-pager button:focus-visible { outline: 2px solid var(--accent-yellow); outline-offset: 2px; }
+        .region-pager button:disabled { opacity: .35; cursor: not-allowed; }
+        .pager-prev {
+            width: 40px; height: 40px; padding: 0; flex: none;
+            font-size: 1.3rem; line-height: 1;
+            color: var(--text-primary); background: var(--bg-color);
+        }
+        .pager-next {
+            padding: 10px 18px; flex: none; white-space: nowrap;
+            color: var(--on-accent); background: var(--accent-blue); border-color: var(--accent-blue);
+        }
+        .pager-info { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; padding: 0 4px; text-align: center; }
+        .pager-current { font-family: 'Outfit', 'Inter', system-ui, sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: .5px; color: var(--text-primary); text-transform: uppercase; white-space: nowrap; }
+        .pager-current small { font-family: 'Inter', system-ui, sans-serif; font-weight: 600; font-size: .72rem; color: var(--text-secondary); letter-spacing: 0; text-transform: none; margin-left: 2px; }
+        .pager-upnext { font-size: .8rem; color: var(--text-secondary); white-space: nowrap; }
+        .pager-upnext strong { color: var(--accent-blue); font-weight: 700; }
+        @media (max-width: 600px) {
+            .region-pager { gap: 6px; padding: 6px; bottom: 10px; }
+            .pager-prev { width: 36px; height: 36px; }
+            .pager-next { padding: 9px 13px; font-size: .85rem; }
+            .pager-current { font-size: .9rem; }
+            .pager-upnext { font-size: .74rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { .region-pager button { transition: none; } }
+
+        /* ===== Temas ===== */
+        :root { --on-accent: #0f172a; --text-detail: #cbd5e1; }
+        html[data-theme="verde"] {
+            --bg-color: #07130e; --card-bg: #0f2318; --card-border: #1e4430;
+            --text-primary: #f0fdf4; --text-secondary: #86b9a0; --text-detail: #c5e6d3;
+            --accent-blue: #34d399; --on-accent: #052e1c;
+        }
+        html[data-theme="violeta"] {
+            --bg-color: #120b1f; --card-bg: #1d1233; --card-border: #3b2a63;
+            --text-primary: #faf5ff; --text-secondary: #a89bc7; --text-detail: #dccffa;
+            --accent-blue: #c084fc; --on-accent: #1e0a3a;
+        }
+        html[data-theme="fuego"] {
+            --bg-color: #170b08; --card-bg: #281410; --card-border: #53291f;
+            --text-primary: #fff7ed; --text-secondary: #c9a495; --text-detail: #f3d9cb;
+            --accent-blue: #fb923c; --on-accent: #2a0e03;
+        }
+        html[data-theme="rosa"] {
+            --bg-color: #170a14; --card-bg: #281326; --card-border: #55264f;
+            --text-primary: #fdf2f8; --text-secondary: #c79bb9; --text-detail: #f4d3e7;
+            --accent-blue: #f472b6; --on-accent: #2b0a1f;
+        }
+        html[data-theme="claro"] {
+            --bg-color: #f1f5f9; --card-bg: #ffffff; --card-border: #cbd5e1;
+            --text-primary: #0f172a; --text-secondary: #475569; --text-detail: #334155;
+            --accent-blue: #0369a1; --accent-yellow: #a16207; --on-accent: #ffffff;
+        }
+        html[data-theme="claro"] .step-item:hover { box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12); }
+
+        .theme-picker { display: flex; align-items: center; gap: 8px; margin-left: 8px; padding-left: 14px; border-left: 1px solid var(--card-border); }
+        .theme-picker button {
+            width: 26px; height: 26px; padding: 0; border-radius: 50%; cursor: pointer;
+            border: 2px solid var(--card-border);
+            background: var(--swatch);
+            transition: transform .15s, border-color .15s;
+        }
+        .theme-picker button:hover { transform: scale(1.12); }
+        .theme-picker button.active { border-color: var(--text-primary); box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--swatch); }
+        .theme-picker button:focus-visible { outline: 2px solid var(--accent-yellow); outline-offset: 3px; }
+        @media (max-width: 600px) { .theme-picker { width: 100%; justify-content: center; margin: 4px 0 0; padding: 8px 0 0; border-left: 0; border-top: 1px solid var(--card-border); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>PokeMMO - Guía de RUTA DE LÍDERES</h1>
+        
+    </header>
+
+    <nav class="region-nav" aria-label="Regiones">
+        <button type="button" class="active" data-target="todas" aria-pressed="true">Ver todas</button>
+        <button type="button" data-target="hoenn" aria-pressed="false">Hoenn</button>
+        <button type="button" data-target="kanto" aria-pressed="false">Kanto</button>
+        <button type="button" data-target="sinnoh" aria-pressed="false">Sinnoh</button>
+        <button type="button" data-target="teselia" aria-pressed="false">Teselia</button>
+        <button type="button" data-target="johto" aria-pressed="false">Johto</button>
+        <div class="theme-picker" role="group" aria-label="Tema de color">
+            <button type="button" data-theme="azul" style="--swatch:#38bdf8" title="Azul" aria-label="Tema azul" aria-pressed="true" class="active"></button>
+            <button type="button" data-theme="verde" style="--swatch:#34d399" title="Verde" aria-label="Tema verde" aria-pressed="false"></button>
+            <button type="button" data-theme="violeta" style="--swatch:#c084fc" title="Violeta" aria-label="Tema violeta" aria-pressed="false"></button>
+            <button type="button" data-theme="fuego" style="--swatch:#fb923c" title="Fuego" aria-label="Tema fuego" aria-pressed="false"></button>
+            <button type="button" data-theme="rosa" style="--swatch:#f472b6" title="Rosa" aria-label="Tema rosa" aria-pressed="false"></button>
+            <button type="button" data-theme="claro" style="--swatch:#e2e8f0" title="Claro" aria-label="Tema claro" aria-pressed="false"></button>
+        </div>
+    </nav>
+
+    <div class="legend">
+        <div class="legend-title">EQUIPO UTILIZADO</div>
+        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aerodactyl"> Aerodactyl</span>
+        <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blastoise"> Blastoise</span>
+        <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typhlosion"> Typhlosion</span>
+        <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Excadrill"> Excadrill</span>
+        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Togekiss"> Togekiss</span>
+        <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanilluxe">  Vanilluxe</span>
+    </div>
+
+    <!-- HOENN -->
+    <div class="region-card" id="hoenn">
+        <div class="region-header">
+            <div class="region-title">HOENN <span class="region-count">5 gimnasios</span></div>
+        </div>
+        <div class="region-content">
+            <div class="map-container">
+                <img src="hoenn.png" width="997" height="666" loading="lazy" alt="Mapa Hoenn">
+            </div>
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">1</span>
+                        <span class="step-location">LAVACALDA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast">SALPICAR</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">2</span>
+                        <span class="step-location">MALVALONA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">3</span>
+                        <span class="step-location">FÉRRICA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">4</span>
+                        <span class="step-location">AZULIZA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> SALPICAR</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">5</span>
+                        <span class="step-location">ARBORADA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VENTISCA</span>
+                        <span class="step-time">(Quedan 51m tras este gimnasio)</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI ENTRA PELIPPER <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/279.gif" class="poke-gif" alt="Pelipper"> O ALTARIA <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/334.gif" class="poke-gif" alt="Altaria"> SALEN DE PRIMEROS, USA <strong>VIENTO HIELO </strong> con <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil">VIENTO HIELO</span>.</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="global-note">
+        ➜ SIEMPRE <span>[CURA]</span> SIEMPRÉ CURA AL TERMINAR UNA REGION!
+    </div>
+
+    <!-- KANTO -->
+    <div class="region-card" id="kanto">
+        <div class="region-header">
+            <div class="region-title">KANTO <span class="region-count">5 gimnasios</span></div>
+        </div>
+        <div class="region-content">
+            <div class="map-container">
+                <img src="kanto.png" width="1080" height="730" loading="lazy" alt="Mapa Kanto">
+            </div>
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">6</span>
+                        <span class="step-location">CARMÍN</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">7</span>
+                        <span class="step-location">ISLA CANELA</span>
+                        <span>–</span>
+                        <span class="badge" style="background:#64748b;">TOGEKISS</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> SALPICAR</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>☀️SI PONEN SEQUÍA☀️, CAMBIA <span class="badge" style="background:#64748b;">TOGEKISS</span> » <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILLUXE + VENTISCA</span></li>
+                            <li>SI BLISSEY <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/242.gif" class="poke-gif" alt="Blissey"> está en el campo, cambia ambos líderes por <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="TERREMOTO"> Exca</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">8</span>
+                        <span class="step-location">PLATEADA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">9</span>
+                        <span class="step-location">AZAFRÁN</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                    <div class="step-details">
+                        <em>(Y la razón de por qué Furret <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/162.gif" class="poke-gif" alt="Furret"> usa Protección)</em>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">10</span>
+                        <span class="step-location">FUCSIA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                        <span class="step-time">(39m restantes)</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li><span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span> AVALANCHA</li>
+                            <li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SINNOH -->
+    <div class="region-card" id="sinnoh">
+        <div class="region-header">
+            <div class="region-title">SINNOH <span class="region-count">4 gimnasios</span></div>
+        </div>
+        <div class="region-content">
+            <div class="map-container">
+                <img src="sinnoh.png" width="1090" height="757" loading="lazy" alt="Mapa Sinnoh">
+            </div>
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">11</span>
+                        <span class="step-location">ROCAVELO</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero">☀️DIA SOLEADO☀️ </span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>☀️DIA SOLEADO☀️ <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> Aero</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">12</span>
+                        <span class="step-location">VETUSTA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">13</span>
+                        <span class="step-location">PIRITA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI EL EXCADRILL <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Excadrill"> RIVAL ESTA EN EL CAMPÓ, CAMBIA A <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCRADRILL POR </span> » <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span></li>
+                            <li>Si <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> Aero</span> cae, saca a <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> Blast</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">14</span>
+                        <span class="step-location">CIUDAD MARINA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> SALPICAR</span>
+                        <span class="step-time">(31m restantes)</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/171.gif" class="poke-gif" alt="Lanturn"> SALE AL COMIENZO DEL COMBATE, CAMBIA A <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> BLASTOICE</span> POR <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span> (DEJA QUE MUERA) » <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL + TERREMOTO</span></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- UNOVA / TESELIA -->
+    <div class="region-card" id="teselia">
+        <div class="region-header">
+            <div class="region-title">TESELIA <span class="region-count">8 gimnasios</span></div>
+        </div>
+        <div class="region-content">
+            <div class="map-container">
+                <img src="teselia.png" width="762" height="530" loading="lazy" alt="Mapa Unova">
+            </div>
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">15</span>
+                        <span class="step-location">PORCELANA</span>
+                        <span>–</span>
+                        <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VENTISCA</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> SALPICAR</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">16</span>
+                        <span class="step-location">CIUDAD GRESS TIPO FUEGO</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-blast"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/9.gif" class="poke-gif" alt="Blast"> SALPICAR</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>Si LE CAÉ DOBLE INTIMIDACION A AERODACTYL, CAMBIA A <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span> POR EXCADRILL <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> Exca</span> » <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span></li>
+                            <li>Si Typhlosion <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typhlosion"> está en el campo, usa Danza Lluvia con <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">17</span>
+                        <span class="step-location">CIUDAD GRESS TIPO PLANTA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">18</span>
+                        <span class="step-location">CIUDAD GRESS TIPO AGUA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> Toge</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> Exca</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI HAY <strong>DOBLE</strong> INTIMIDACÍON O LLUEVE, ENTRA CON <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span> POR <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span> Y DESPUES <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">19</span>
+                        <span class="step-location">CAOLÍN</span>
+                        <span>–</span>
+                        <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VENTISCA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">20</span>
+                        <span class="step-location">CIUDAD TEJA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> DIA SOLEADO</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span> <em></em>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>USA DÍA SOLEADO + AVALANCHA con <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> </span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">21</span>
+                        <span class="step-location">CIUDAD LOZA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span> <em>Viento Hielo</em>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">22</span>
+                        <span class="step-location">MAYÓLICA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span> <em></em>
+                        <span class="step-time">(14m restantes)</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JOHTO -->
+    <div class="region-card" id="johto">
+        <div class="region-header">
+            <div class="region-title">JOHTO <span class="region-count">6 gimnasios</span></div>
+        </div>
+        <div class="region-content">
+            <div class="map-container">
+                <img src="jotho.png" width="1432" height="725" loading="lazy" alt="Mapa Johto">
+            </div>
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">23</span>
+                        <span class="step-location">TRIGAL</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI ESTAS FRENTE A BLISSEY <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/242.gif" class="poke-gif" alt="Blissey">, ENTRA CON <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">24</span>
+                        <span class="step-location">AZALEA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI HAY TORMENTA ARENA , CAMBIA A <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span> POR <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">25</span>
+                        <span class="step-location">MALVALONA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AVALANCHA</span> + <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VENTISCA</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI HAY LLUVIA, USA VIENTO HIELO CON <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">26</span>
+                        <span class="step-location">CIUDAD CAOBA</span>
+                        <span>–</span>
+                        <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> DIA SOLEADO + AVALANCHA</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span> <em> </em>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>USA DÍA SOLEADO CON <span class="badge badge-aero"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/142.gif" class="poke-gif" alt="Aero"> AERODACTYL</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">27</span>
+                        <span class="step-location">CIUDAD ORQUÍDEA</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> TOGEKISS</span> <em>AIRE AFILADO</em> + <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> TERREMOTO</span>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>FRENTE GRANBULL <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/210.gif" class="poke-gif" alt="Granbull"> SI EXCADRILL RESIVE DOBLE INTMIDACION, CAMBIA A <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span> » <span class="badge badge-vanil"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/584.gif" class="poke-gif" alt="Vanil"> VANILUXE</span> Y DESPUES <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="step-item">
+                    <div class="step-header">
+                        <span class="step-number">28</span>
+                        <span class="step-location">CIUDAD OLIVO</span>
+                        <span>–</span>
+                        <span class="badge badge-toge"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/468.gif" class="poke-gif" alt="Toge"> VOZARRON</span> + <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> ESTALLIDO</span> <em></em>
+                    </div>
+                    <div class="step-details">
+                        <ul>
+                            <li>SI <span class="badge badge-typh"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/157.gif" class="poke-gif" alt="Typh"> TYPLOSION</span> MUERE, ENTRA CON <span class="badge badge-exca"><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/530.gif" class="poke-gif" alt="Exca"> EXCADRILL</span></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function () {
+    var buttons = document.querySelectorAll('.region-nav > button');
+    var cards = document.querySelectorAll('.region-card');
+    var note = document.querySelector('.global-note');
+    var nav = document.querySelector('.region-nav');
+
+    function show(id, scroll) {
+        cards.forEach(function (c) { c.classList.toggle('is-hidden', id !== 'todas' && c.id !== id); });
+        if (note) note.classList.toggle('is-hidden', id !== 'todas');
+        buttons.forEach(function (b) {
+            var on = b.dataset.target === id;
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        try { history.replaceState(null, '', id === 'todas' ? location.pathname + location.search : '#' + id); } catch (e) {}
+        if (scroll) window.scrollTo({ top: nav.offsetTop - 10 });
+    }
+
+    buttons.forEach(function (b) {
+        b.addEventListener('click', function () { show(b.dataset.target, true); });
+    });
+
+    var initial = (location.hash || '').replace('#', '');
+    if (document.getElementById(initial) && document.getElementById(initial).classList.contains('region-card')) show(initial, false);
+})();
+
+(function () {
+    var root = document.documentElement;
+    var swatches = document.querySelectorAll('.theme-picker button');
+    function setTheme(t, save) {
+        if (t === 'azul') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', t);
+        swatches.forEach(function (b) {
+            var on = b.dataset.theme === t;
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        if (save) { try { localStorage.setItem('tema-guia-lideres', t); } catch (e) {} }
+    }
+    swatches.forEach(function (b) { b.addEventListener('click', function () { setTheme(b.dataset.theme, true); }); });
+    var saved = null;
+    try { saved = localStorage.getItem('tema-guia-lideres'); } catch (e) {}
+    if (saved && document.querySelector('.theme-picker [data-theme="' + saved + '"]')) setTheme(saved, false);
+})();
+</script>
+<script>
+(function () {
+    var maps = document.querySelectorAll('.map-container');
+    var box = null;
+    function close() {
+        if (!box) return;
+        box.remove(); box = null;
+        document.removeEventListener('keydown', onKey);
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+    function open(img) {
+        close();
+        box = document.createElement('div');
+        box.className = 'map-lightbox';
+        box.setAttribute('role', 'dialog');
+        box.setAttribute('aria-modal', 'true');
+        var big = document.createElement('img');
+        big.src = img.src; big.alt = img.alt;
+        var x = document.createElement('button');
+        x.type = 'button'; x.setAttribute('aria-label', 'Cerrar'); x.textContent = '×';
+        box.appendChild(big); box.appendChild(x);
+        box.addEventListener('click', close);
+        document.body.appendChild(box);
+        document.addEventListener('keydown', onKey);
+        x.focus();
+    }
+    maps.forEach(function (m) {
+        var img = m.querySelector('img');
+        if (!img) return;
+        m.setAttribute('tabindex', '0');
+        m.setAttribute('role', 'button');
+        m.setAttribute('aria-label', 'Ampliar ' + (img.alt || 'mapa'));
+        m.addEventListener('click', function () { open(img); });
+        m.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(img); }
+        });
+    });
+})();
+</script>
+
+<div class="region-pager" role="navigation" aria-label="Recorrer regiones">
+    <button type="button" class="pager-prev" id="pagerPrev" aria-label="Región anterior">‹</button>
+    <div class="pager-info">
+        <span class="pager-current" id="pagerCurrent"></span>
+        <span class="pager-upnext" id="pagerNext"></span>
+    </div>
+    <button type="button" class="pager-next" id="pagerGo"></button>
+</div>
+
+<script>
+(function () {
+    var order = ['hoenn', 'kanto', 'sinnoh', 'teselia', 'johto'];
+    var names = {};
+    document.querySelectorAll('.region-nav > button[data-target]').forEach(function (b) { names[b.dataset.target] = b.textContent.trim(); });
+    var prev = document.getElementById('pagerPrev');
+    var go = document.getElementById('pagerGo');
+    var cur = document.getElementById('pagerCurrent');
+    var nxt = document.getElementById('pagerNext');
+    var nav = document.querySelector('.region-nav');
+    var ticking = false;
+
+    function filtered() {
+        var a = document.querySelector('.region-nav > button.active');
+        return a && a.dataset.target !== 'todas' ? a.dataset.target : null;
+    }
+    function currentIndex() {
+        var f = filtered();
+        if (f) return order.indexOf(f);
+        var idx = -1, line = window.innerHeight * 0.4;
+        order.forEach(function (id, i) {
+            var el = document.getElementById(id);
+            if (el && el.getBoundingClientRect().top <= line) idx = i;
+        });
+        return idx;
+    }
+    function render() {
+        var i = currentIndex();
+        var last = order.length - 1;
+        if (i < 0) {
+            cur.textContent = 'Inicio';
+            nxt.innerHTML = 'Siguiente: <strong>' + names[order[0]] + '</strong>';
+            go.textContent = names[order[0]] + ' ›';
+        } else if (i < last) {
+            cur.innerHTML = names[order[i]] + ' <small>' + (i + 1) + ' de ' + order.length + '</small>';
+            nxt.innerHTML = 'Siguiente: <strong>' + names[order[i + 1]] + '</strong>';
+            go.textContent = names[order[i + 1]] + ' ›';
+        } else {
+            cur.innerHTML = names[order[i]] + ' <small>' + (i + 1) + ' de ' + order.length + '</small>';
+            nxt.textContent = 'Última región';
+            go.textContent = '↑ Inicio';
+        }
+        prev.disabled = filtered() ? i <= 0 : i < 0;
+        prev.setAttribute('aria-label', i > 0 ? 'Ir a ' + names[order[i - 1]] : 'Ir al inicio');
+    }
+    function goTo(id) {
+        if (filtered()) {
+            var b = document.querySelector('.region-nav > button[data-target="' + id + '"]');
+            if (b) b.click();
+        } else {
+            var el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+    function toTop() {
+        var all = document.querySelector('.region-nav > button[data-target="todas"]');
+        if (filtered() && all) all.click();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    go.addEventListener('click', function () {
+        var i = currentIndex();
+        if (i >= order.length - 1) toTop(); else goTo(order[i + 1]);
+    });
+    prev.addEventListener('click', function () {
+        var i = currentIndex();
+        if (i > 0) goTo(order[i - 1]); else if (i === 0 && !filtered()) toTop();
+    });
+    function schedule() {
+        if (ticking) return; ticking = true;
+        requestAnimationFrame(function () { ticking = false; render(); });
+    }
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    nav.addEventListener('click', function () { setTimeout(render, 0); });
+    render();
+})();
+</script>
+</body>
+</html>
